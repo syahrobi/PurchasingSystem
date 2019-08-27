@@ -1,12 +1,12 @@
 'use strict';
 
-module.exports = function(Customer) {
-    Customer.remoteMethod(
+module.exports = function(Admin) {
+    Admin.remoteMethod(
         'getName',
         {
             description: 'get fullname',
             accepts: [
-                { arg: 'firstname', type: 'string'}
+                { arg: 'fullname', type: 'string'}
             ],
             returns:{
                 arg: 'res', type:'object', root: true
@@ -15,19 +15,19 @@ module.exports = function(Customer) {
         }
     );
 
-    Customer.getName = function(firstname, callback){
+    Admin.getName = function(fullname, callback){
         new Promise(function(resolve, reject){
             var filter = {
                 where: {
-                    firstname : {
-                        like : firstname
+                    fullname : {
+                        like : fullname
                     }
                 }
             }
-            Customer.find(filter, function(err, result){
+            Admin.find(filter, function(err, result){
                 if(err) reject (err)
                 if(result === null){
-                    err = new Error ("Costumer Tidak Dapat Ditemukan")
+                    err = new Error ("Nama Tidak Dapat Ditemukan")
                     err.statusCode = 404
                     reject (err)
                 }
@@ -40,5 +40,4 @@ module.exports = function(Customer) {
             callback(err);
         });
     }
-
 };
